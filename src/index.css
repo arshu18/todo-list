@@ -1,0 +1,23 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+:root{
+    --clr-grey : rgb(233, 227, 227);
+    --clr-navbar : #ff600036;
+    --clr-calendar-header : #00800085;
+    --clr-calendar-body : #0000ff26;
+    --clr-day-hover: #efff7f30;
+    --clr-prevnext-month: rgb(145, 136, 136);
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: var(--clr-grey);
+    font-family: 'Montserrat', sans-serif;
+}
+
+p, h1, h2, h3, h4{
+    margin: 0;
+}

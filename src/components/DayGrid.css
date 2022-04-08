@@ -1,0 +1,40 @@
+.DayGrid-dayList{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: 35px;
+}
+
+.DayGrid-dayName{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.DayGrid-dateList{
+    height: calc(100% - 35px);
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+}
+
+.DayGrid-date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: var(--clr-prevnext-month);
+    cursor: not-allowed;
+}
+
+.DayGrid-date.CurrentMonth.CurrentDay{
+    background-color: #ffcdcd94;
+}
+
+.DayGrid-date.CurrentMonth{
+    color: black;
+    cursor: pointer;
+}
+
+.DayGrid-date.CurrentMonth:not(.CurrentDay):hover{
+    background-color: var(--clr-day-hover);
+}
