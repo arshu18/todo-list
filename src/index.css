@@ -9,6 +9,8 @@
     --clr-calendar-body : #0000ff26;
     --clr-day-hover: #efff7f30;
     --clr-prevnext-month: rgb(145, 136, 136);
+    --clr-modal-background: rgba(0,0,0,0.4);
+    --clr-popup-background: #e6e6e6;
 }
 
 body{
