@@ -1,14 +1,41 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import DatePicker from "react-datepicker"
-import TimePicker from 'react-time-picker'
 
+// Others
+import { TaskValidation, DatetimeValidation } from "../others/Validations"
+
+// Styles
 import "./NewTask.css"
+import "react-datepicker/dist/react-datepicker.css"
 
 const NewTask = ({setDisplayModal}) => {
-    const [startDate, setStartDate] = useState(new Date())
-    const [time, setTime] = useState()
-    
+    const [selectedDate, setSelectedDate] = useState()
+    const [taskErrors, setTaskErrors] = useState({})
+
+    const handleSubmit = (e) => {
+        const dateTime = document.getElementById("datetime").value
+        const task = document.getElementById("task").value
+
+        const taskErrorsObj = {}
+
+        const [datetimeIsValid, datetimeErrorMsg] = DatetimeValidation(dateTime)
+        const [taskIsValid, taskErrorMsg] = TaskValidation(task)
+
+        if(!datetimeIsValid){
+            taskErrorsObj.datetime = datetimeErrorMsg
+            e.preventDefault()
+        }
+
+        if(!taskIsValid){
+            taskErrorsObj.task = taskErrorMsg
+            e.preventDefault()
+        }
+
+        if(Object.keys(taskErrorsObj).length)
+            setTaskErrors(taskErrorsObj)
+    }
+
     return (
         <section className="NewTask-modal">
             <div className="NewTask-popup">
@@ -17,16 +44,21 @@ const NewTask = ({setDisplayModal}) => {
                     <AiOutlineClose size="1.5em" className="NewTask-closebtn" onClick={() => setDisplayModal(false)} />
                 </div>
                 <div className="NewTask-popupBody">
-                    <form method="POST" action="/">
+                    {
+                        Object.keys(taskErrors).length !== 0 && (
+                            <ul className="NewTask-validationMsg">
+                                {
+                                    Object.values(taskErrors).map((error, index) => <li key={index}>{error}</li>)
+                                }
+                            </ul>
+                        )
+                    }
+                    <form method="POST" action="/" onSubmit={handleSubmit}>
                         <div className="NewTask-formContainer">
                             <div className="NewTask-inputContainer">
-                                <label htmlFor="date">Date:</label>
-                                <DatePicker selected={startDate} dateFormat="dd/MM/yyyy" name="date" id="date"
-                                    onChange={(date) => setStartDate(date)} className="NewTask-input" />
-                            </div>
-                            <div className="NewTask-inputContainer">
-                                <label htmlFor="time">Time:</label>
-                                <TimePicker onChange={setTime} value={time} name="time" id="time" className="NewTask-input time" />
+                                <label htmlFor="datetime">Date and Time:</label>
+                                <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} className="NewTask-input"
+                                 name="datetime" id="datetime" dateFormat="dd/MM/yyyy HH:mm" timeFormat="HH:mm" minDate={new Date()} showTimeSelect />
                             </div>
                             <div className="NewTask-inputContainer">
                                 <label htmlFor="task">Task:</label>

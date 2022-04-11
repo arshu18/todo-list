@@ -53,10 +53,6 @@
     width: 50%;
 }
 
-.NewTask-input.time{
-    padding: 0;
-}
-
 .txtArea{
     resize: none;
 }
@@ -75,6 +71,14 @@
 .NewTask-submitBtn:hover{
     background-color: #89493FBF;
     color: #e1e8dbc2;
+}
+
+.NewTask-validationMsg{
+    margin-top: 0;
+    margin-bottom: 2em;
+    color: rgb(239, 17, 17);
+    padding: 0;
+    list-style-type: none;
 }
 
 @media (min-width: 901px) and (max-width: 1300px){
