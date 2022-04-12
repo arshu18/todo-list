@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import DatePicker from "react-datepicker"
 
@@ -13,9 +13,12 @@ const NewTask = ({setDisplayModal}) => {
     const [selectedDate, setSelectedDate] = useState()
     const [taskErrors, setTaskErrors] = useState({})
 
+    const didMount = useRef(false)  // To prevent useEffect from calling in intial render
+    const taskRef = useRef()
+
     const handleSubmit = (e) => {
         const dateTime = document.getElementById("datetime").value
-        const task = document.getElementById("task").value
+        const task = taskRef.current.value
 
         const taskErrorsObj = {}
 
@@ -35,6 +38,44 @@ const NewTask = ({setDisplayModal}) => {
         if(Object.keys(taskErrorsObj).length)
             setTaskErrors(taskErrorsObj)
     }
+
+    const taskChange = () => {
+        const task = taskRef.current.value
+
+        const [taskIsValid, taskErrorMsg] = TaskValidation(task)
+
+        if(!taskIsValid){
+            setTaskErrors({ ...taskErrors, task : taskErrorMsg })
+        }
+        else{
+            // delete taskErrors.task      Can somebody help why this doesn't work but the below one does
+            // setTaskErrors(taskErrors)
+
+            const { task, ...restOfErrors } = taskErrors
+            setTaskErrors(restOfErrors)
+        }
+    }
+
+    useEffect(() => {
+        if(!didMount.current){
+            didMount.current = true
+        }
+        else{
+            const dateTime = document.getElementById("datetime").value
+            const [datetimeIsvalid, datetimeErrorMsg] = DatetimeValidation(dateTime)
+
+            if(!datetimeIsvalid){
+                setTaskErrors({ ...taskErrors, datetime : datetimeErrorMsg })
+            }
+            else{
+                // delete taskErrors.datetime
+                // setTaskErrors(taskErrors)
+
+                const { datetime, ...restOfErrors } = taskErrors
+                setTaskErrors(restOfErrors)
+            }
+        }
+    }, [selectedDate])
 
     return (
         <section className="NewTask-modal">
@@ -62,7 +103,7 @@ const NewTask = ({setDisplayModal}) => {
                             </div>
                             <div className="NewTask-inputContainer">
                                 <label htmlFor="task">Task:</label>
-                                <textarea className="txtArea" name="task" id="task"></textarea>
+                                <textarea className="txtArea" name="task" id="task" ref={taskRef} onChange={taskChange}></textarea>
                             </div>
                         </div>
                         <button type="submit" className="NewTask-submitBtn">Submit</button>
