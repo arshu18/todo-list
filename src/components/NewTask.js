@@ -14,10 +14,11 @@ const NewTask = ({setDisplayModal}) => {
     const [taskErrors, setTaskErrors] = useState({})
 
     const didMount = useRef(false)  // To prevent useEffect from calling in intial render
+    const dateTimeRef = useRef()
     const taskRef = useRef()
 
     const handleSubmit = (e) => {
-        const dateTime = document.getElementById("datetime").value
+        const dateTime = dateTimeRef.current.input.value
         const task = taskRef.current.value
 
         const taskErrorsObj = {}
@@ -61,7 +62,7 @@ const NewTask = ({setDisplayModal}) => {
             didMount.current = true
         }
         else{
-            const dateTime = document.getElementById("datetime").value
+            const dateTime = dateTimeRef.current.input.value
             const [datetimeIsvalid, datetimeErrorMsg] = DatetimeValidation(dateTime)
 
             if(!datetimeIsvalid){
@@ -99,7 +100,7 @@ const NewTask = ({setDisplayModal}) => {
                             <div className="NewTask-inputContainer">
                                 <label htmlFor="datetime">Date and Time:</label>
                                 <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} className="NewTask-input"
-                                 name="datetime" id="datetime" dateFormat="dd/MM/yyyy HH:mm" timeFormat="HH:mm" minDate={new Date()} showTimeSelect />
+                                 name="datetime" id="datetime" dateFormat="dd/MM/yyyy HH:mm" ref={dateTimeRef} timeFormat="HH:mm" minDate={new Date()} showTimeSelect />
                             </div>
                             <div className="NewTask-inputContainer">
                                 <label htmlFor="task">Task:</label>
