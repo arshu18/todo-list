@@ -1,14 +1,16 @@
-import React, { useReducer, useEffect, useRef } from "react"
+import React, { useReducer, useEffect, useRef, useContext } from "react"
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs"
 
 // Components
 import DayGrid from "../components/DayGrid"
+import TaskStatus from "../components/TaskStatus"
 
 // Others
 import GLOBAL from "../GlobalVar"
 import Navigation from "../others/Navigation"
 import HeadingChange from "../others/HeadingChange"
 import DisplayChildGrid from "../others/DisplayChildGrid"
+import { TaskStatusContext } from "../App"
 
 // CSS
 import "./Home.css"
@@ -106,6 +108,7 @@ const reducer = (state, action) => {
 
 const Home = () => {
     const [calendar, dispatch] = useReducer(reducer, initialState)
+    const { taskStatus, setTaskStatus } = useContext(TaskStatusContext)
     const headingRef = useRef()
 
     useEffect(() => {
@@ -116,34 +119,49 @@ const Home = () => {
         dispatch({ type : "DAY", month, year })        
     }, [])
 
+    useEffect(() => {
+        const msgTimeout = setTimeout(() => {
+            setTaskStatus("")
+        }, 5000);
+
+        return () => {
+            clearTimeout(msgTimeout)
+        }
+    })
+
     return (
-        <article className="Home-calendar">
-            <section className="Home-calendarHeader">
-                <BsChevronLeft size="2em" className="Home-leftArrow" onClick={() => 
-                    Navigation(headingRef.current.innerText, calendar.view, "P", dispatch)} />
-                <h2 className="Home-heading" ref={headingRef} 
-                    onClick={() => HeadingChange(headingRef.current.innerText, calendar.view, dispatch)}>{calendar.heading}</h2>
-                <BsChevronRight size="2em" className="Home-rightArrow" onClick={() => 
-                    Navigation(headingRef.current.innerText, calendar.view, "N", dispatch)} />
-            </section>
-            <section className="Home-calendarBody">
-                {
-                    calendar.view === "DAY" && ( <DayGrid grid={calendar.grid} />)
-                }
-                {
-                    (calendar.view === "MONTH" || calendar.view === "YEAR") && (
-                        <div className="Home-monthYearList">
-                            {
-                                calendar.grid.map((grid, index) => {
-                                    return <p key={index} className="Home-monthYear" 
-                                    onClick={() => DisplayChildGrid(headingRef.current.innerText, grid, calendar.view, dispatch)}>{grid}</p>
-                                })
-                            }
-                        </div>
-                    )
-                }
-            </section>
-        </article>
+        <>
+            {
+                taskStatus && ( <TaskStatus taskStatus={taskStatus} /> )
+            }
+            <article className="Home-calendar">
+                <section className="Home-calendarHeader">
+                    <BsChevronLeft size="2em" className="Home-leftArrow" onClick={() =>
+                        Navigation(headingRef.current.innerText, calendar.view, "P", dispatch)} />
+                    <h2 className="Home-heading" ref={headingRef}
+                        onClick={() => HeadingChange(headingRef.current.innerText, calendar.view, dispatch)}>{calendar.heading}</h2>
+                    <BsChevronRight size="2em" className="Home-rightArrow" onClick={() =>
+                        Navigation(headingRef.current.innerText, calendar.view, "N", dispatch)} />
+                </section>
+                <section className="Home-calendarBody">
+                    {
+                        calendar.view === "DAY" && (<DayGrid grid={calendar.grid} />)
+                    }
+                    {
+                        (calendar.view === "MONTH" || calendar.view === "YEAR") && (
+                            <div className="Home-monthYearList">
+                                {
+                                    calendar.grid.map((grid, index) => {
+                                        return <p key={index} className="Home-monthYear"
+                                            onClick={() => DisplayChildGrid(headingRef.current.innerText, grid, calendar.view, dispatch)}>{grid}</p>
+                                    })
+                                }
+                            </div>
+                        )
+                    }
+                </section>
+            </article>
+        </>
     )
 }
 

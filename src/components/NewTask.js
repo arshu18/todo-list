@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useCallback, useContext } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import DatePicker from "react-datepicker"
 
 // Others
 import { TaskValidation, DatetimeValidation } from "../others/Validations"
+import GLOBAL from "../GlobalVar"
+import { TaskStatusContext } from "../App"
 
 // Styles
 import "./NewTask.css"
@@ -12,12 +14,15 @@ import "react-datepicker/dist/react-datepicker.css"
 const NewTask = ({setDisplayModal}) => {
     const [selectedDate, setSelectedDate] = useState()
     const [taskErrors, setTaskErrors] = useState({})
+    const { taskStatus, setTaskStatus } = useContext(TaskStatusContext)
 
     const didMount = useRef(false)  // To prevent useEffect from calling in intial render
     const dateTimeRef = useRef()
     const taskRef = useRef()
 
     const handleSubmit = (e) => {
+        e.preventDefault()
+        
         const dateTime = dateTimeRef.current.input.value
         const task = taskRef.current.value
 
@@ -26,18 +31,34 @@ const NewTask = ({setDisplayModal}) => {
         const [datetimeIsValid, datetimeErrorMsg] = DatetimeValidation(dateTime)
         const [taskIsValid, taskErrorMsg] = TaskValidation(task)
 
-        if(!datetimeIsValid){
+        if(!datetimeIsValid)
             taskErrorsObj.datetime = datetimeErrorMsg
-            e.preventDefault()
-        }
 
-        if(!taskIsValid){
+        if(!taskIsValid)
             taskErrorsObj.task = taskErrorMsg
-            e.preventDefault()
-        }
 
-        if(Object.keys(taskErrorsObj).length)
+        if(Object.keys(taskErrorsObj).length){
             setTaskErrors(taskErrorsObj)
+        }
+        else{
+            fetch(`${GLOBAL.API_HOST}/api/Task/Add?dateTime=${dateTime}&task=${task}`, {
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json",
+                    "Accept" : "application/json"
+                },
+                body : null
+            }).then(response => {
+                setDisplayModal(false)
+
+                if(response.ok){
+                    setTaskStatus("AS")
+                }
+                else{
+                    setTaskStatus("AF")
+                }
+            })
+        }
     }
 
     const taskChange = () => {

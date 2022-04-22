@@ -1,4 +1,4 @@
-import React from "react"
+import React, { createContext, useState, useMemo } from "react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 // Styles
@@ -10,15 +10,26 @@ import Navbar from "./components/Navbar"
 //Pages
 import Home from "./pages/Home"
 
+const TaskStatusContext = createContext()
+
 const App = () => {
+  const [taskStatus, setTaskStatus] = useState("")
+
+  const value = useMemo(
+    () => ({ taskStatus, setTaskStatus }),
+    [taskStatus]
+  )
+  
   return (
-    <Router>
-      <Navbar/>
-      <Routes>
-        <Route exact path="/" element={<Home/>}/>
-      </Routes>
-    </Router>
+    <TaskStatusContext.Provider value={value}>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+        </Routes>
+      </Router>
+    </TaskStatusContext.Provider>
   )
 }
 
-export default App;
+export { App as default, TaskStatusContext }
