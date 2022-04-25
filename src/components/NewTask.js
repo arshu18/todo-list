@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import DatePicker from "react-datepicker"
+import { useNavigate } from "react-router-dom" 
 
 // Others
 import { TaskValidation, DatetimeValidation } from "../others/Validations"
@@ -15,6 +16,7 @@ const NewTask = ({setDisplayModal}) => {
     const [selectedDate, setSelectedDate] = useState()
     const [taskErrors, setTaskErrors] = useState({})
     const { taskStatus, setTaskStatus } = useContext(TaskStatusContext)
+    const navigate = useNavigate()
 
     const didMount = useRef(false)  // To prevent useEffect from calling in intial render
     const dateTimeRef = useRef()
@@ -53,6 +55,9 @@ const NewTask = ({setDisplayModal}) => {
 
                 if(response.ok){
                     setTaskStatus("AS")
+
+                    const dateComponent = dateTime.split(" ")[0]
+                    navigate(`/DayTasks/${encodeURIComponent(dateComponent)}`)
                 }
                 else{
                     setTaskStatus("AF")

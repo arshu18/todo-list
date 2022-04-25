@@ -1,0 +1,49 @@
+.DayTasks-table{
+    width: 70%;
+    margin: 3em auto 0 auto;
+    table-layout: fixed;
+}
+
+.DayTasks-table, .DayTasks-table th, .DayTasks-table td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.DayTasks-table th, .DayTasks-table td{
+    padding: 1em;
+    text-align: center;
+}
+
+.DayTasks-table th{
+    background-color: #00c3ff54;
+}
+
+.DayTasks-SNO{
+    width: 10%;
+}
+
+.DayTasks-Task{
+    width: 60%;
+}
+
+.DayTasks-Time, .DayTasks-Actions{
+    width: 15%;
+}
+
+.DayTasks-Taskval{
+    word-wrap: break-word;
+}
+
+@media screen and (max-width: 900px){
+    .DayTasks-table{
+        width: 95%;
+    }
+
+    .DayTasks-SNO, .DayTasks-Time, .DayTasks-Actions{
+        width: 20%;
+    }
+
+    .DayTasks-Task{
+        width: 40%;
+    }
+}

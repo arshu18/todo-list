@@ -6,6 +6,7 @@ using System.Globalization;
 using TodoListAPI.Exceptions;
 using TodoListAPI.Filters;
 using TodoListAPI.DataAccessLayer;
+using TodoListAPI.Models;
 
 namespace TodoListAPI.Controllers
 {
@@ -41,6 +42,46 @@ namespace TodoListAPI.Controllers
             await _taskRepo.Add(outputDate, task);
 
             return Ok();
+        }
+
+        [HttpGet("GetTasks")]
+        [ExceptionHandling]
+        public async Task<IActionResult> GetTasks(string date)
+       {
+            string formattedDateStr = FormattedDate(date);
+            DateTime formattedDate = DateTime.ParseExact(formattedDateStr, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+            DateTime startDateTime = new DateTime(formattedDate.Year, formattedDate.Month, formattedDate.Day, 0, 0, 0);
+            DateTime endDateTime = new DateTime(formattedDate.Year, formattedDate.Month, formattedDate.Day, 23, 59, 59);
+
+            List<TaskModel> taskList = await _taskRepo.GetTasks(startDateTime, endDateTime);
+
+            var updatedTaskList = taskList.Select(x =>
+            {
+                string time = x.DateTime.ToString("HH:mm");
+
+                return new { x.ID, x.Task, time };
+            }).ToList();
+
+            return Ok(updatedTaskList);
+        }
+
+        [NonAction]
+        private static string FormattedDate(string date)
+        {
+            string[] dateComponents = date.Split('/');
+
+            string day = dateComponents[0];
+            string month = dateComponents[1];
+            string year = dateComponents[2];
+
+            if (day.Length == 1)
+                day = "0" + day;
+
+            if (month.Length == 1)
+                month = "0" + month;
+
+            return day + "/" + month + "/" + year;
         }
     }
 }

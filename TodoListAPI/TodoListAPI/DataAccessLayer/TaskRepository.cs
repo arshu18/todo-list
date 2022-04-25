@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using System.Data;
-using TodoListAPI.Filters;
+using TodoListAPI.Models;
 
 namespace TodoListAPI.DataAccessLayer
 {
@@ -25,6 +25,24 @@ namespace TodoListAPI.DataAccessLayer
             {
                 await connection.ExecuteAsync(query, parameters);
             }
+        }
+
+        public async Task<List<TaskModel>> GetTasks(DateTime startDate, DateTime endDate)
+        {
+            List<TaskModel> taskList;
+            
+            string query = "SELECT ID, Task, DateTime FROM [dbo].[Task] WHERE DateTime BETWEEN @StartDate AND @EndDate";
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StartDate", startDate, DbType.DateTime);
+            parameters.Add("@EndDate", endDate, DbType.DateTime);
+
+            using(IDbConnection connection = _context.CreateConnection())
+            {
+                taskList = (List<TaskModel>)await connection.QueryAsync<TaskModel>(query, parameters);
+            }
+
+            return taskList;
         }
     }
 }

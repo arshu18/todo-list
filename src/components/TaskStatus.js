@@ -10,6 +10,9 @@ const getStatusMsg = (taskStatus) => {
         case "AF":
             return "Task cannot be added"
             break
+        case "TF":
+            return "Unable to fetch tasks at the moment"
+            break
         default:
             return ""
     }
@@ -21,6 +24,7 @@ const getCssClass = (taskStatus) => {
             return "success"
             break
         case "AF":
+        case "TF":
             return "failure"
             break
         default:
