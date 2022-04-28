@@ -7,8 +7,28 @@
     align-items: center;
 }
 
+.Navbar-vertical{
+    background-color: var(--clr-navbar);
+    font-size: 1.8rem;
+    padding: 0.4em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .Navbar-links{
     cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+.Navbar-navigationContainer{
+    display: flex;
+}
+
+.Navbar-Upcoming{
+    font-size: 1.2rem;
     text-decoration: none;
     font-weight: bold;
     color: black;
@@ -17,8 +37,33 @@
 .Navbar-Newtask{
     cursor: pointer;
     font-size: 1.2rem;
+    margin-left: 1.5em;
 }
 
-.Navbar-Newtask:hover{
+.Navbar-Newtask-vertical{
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-top: 1em;
+}
+
+.Navbar-Newtask:hover, .Navbar-Upcoming:hover, .Navbar-Newtask-vertical:hover{
     color: #7b7676;
+}
+
+.Navbar-Hamburger{
+    position: absolute;
+    top: 20px;
+    right: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 20px;
+    width: 30px;
+    cursor: pointer;
+}
+
+.Navbar-line{
+    width: 100%;
+    background-color: black;
+    height: 1px;
 }
