@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import DatePicker from "react-datepicker"
-import { useNavigate } from "react-router-dom" 
+import { useNavigate } from "react-router-dom"
+import { v4 as uuidv4 } from "uuid" 
 
 // Others
 import { TaskValidation, DatetimeValidation } from "../others/Validations"
@@ -57,7 +58,9 @@ const NewTask = ({setDisplayModal}) => {
                     setTaskStatus("AS")
 
                     const dateComponent = dateTime.split(" ")[0]
-                    navigate(`/DayTasks/${encodeURIComponent(dateComponent)}`)
+                    const uuidStr = uuidv4()
+
+                    navigate(`/DayTasks/${encodeURIComponent(dateComponent)}/${uuidStr}`)
                 }
                 else{
                     setTaskStatus("AF")

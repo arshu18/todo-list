@@ -23,11 +23,11 @@
 }
 
 .DayTasks-Task{
-    width: 60%;
+    width: 65%;
 }
 
-.DayTasks-Time, .DayTasks-Actions{
-    width: 15%;
+.DayTasks-Time{
+    width: 25%;
 }
 
 .DayTasks-Taskval{
@@ -39,11 +39,11 @@
         width: 95%;
     }
 
-    .DayTasks-SNO, .DayTasks-Time, .DayTasks-Actions{
+    .DayTasks-SNO, .DayTasks-Time{
         width: 20%;
     }
 
     .DayTasks-Task{
-        width: 40%;
+        width: 60%;
     }
 }

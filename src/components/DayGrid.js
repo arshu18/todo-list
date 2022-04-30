@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import { v4 as uuidv4 } from "uuid" 
 
 // Others
 import GLOBAL from "../GlobalVar"
@@ -33,7 +34,7 @@ const DayGrid = ({ grid }) => {
                         const dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
 
                         if(isCurrentMonth){
-                            return <Link to={`/DayTasks/${encodeURIComponent(dateStr)}`} key={index} 
+                            return <Link to={`/DayTasks/${encodeURIComponent(dateStr)}/${uuidv4()}`} key={index} 
                             className={`DayGrid-date CurrentMonth ${isTodayDate(date) && "CurrentDay"}`}>{date.getDate()}</Link>
                         }
                         else{

@@ -39,7 +39,7 @@ const App = () => {
         { taskStatus && <TaskStatus taskStatus={taskStatus} /> }
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/DayTasks/:date" element={<DayTasks />} />
+          <Route path="/DayTasks/:date/:uui" element={<DayTasks />} />
         </Routes>
       </Router>
     </TaskStatusContext.Provider>

@@ -9,7 +9,7 @@ import GLOBAL from "../GlobalVar"
 import { TaskStatusContext } from "../App"
 
 const DayTasks = () => {
-    const { date } = useParams()
+    const { date, uui } = useParams()
     const [taskList, setTaskList] = useState([])
     const { setTaskStatus } = useContext(TaskStatusContext)
     
@@ -23,7 +23,7 @@ const DayTasks = () => {
         })
         .then(data => setTaskList(data))
         .catch(err => setTaskStatus(err.message))       
-    }, [])   // Adding more than one task from the same date page doesn't trigger initial render again. Any help is appreciated!
+    }, [uui])
 
     return (
         <table className="DayTasks-table">
@@ -32,7 +32,6 @@ const DayTasks = () => {
                     <th className="DayTasks-SNO">S.NO</th>
                     <th className="DayTasks-Task">Task</th>
                     <th className="DayTasks-Time">Time</th>
-                    <th className="DayTasks-Actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,7 +47,6 @@ const DayTasks = () => {
                                     <td>{index + 1}</td>
                                     <td className="DayTasks-Taskval">{task.task}</td>
                                     <td>{task.time}</td>
-                                    <td></td>
                                 </tr>
                             )
                         })
