@@ -47,7 +47,7 @@ namespace TodoListAPI.Controllers
         [HttpGet("GetTasks")]
         [ExceptionHandling]
         public async Task<IActionResult> GetTasks(string date)
-       {
+        {
             string formattedDateStr = FormattedDate(date);
             DateTime formattedDate = DateTime.ParseExact(formattedDateStr, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
@@ -58,10 +58,27 @@ namespace TodoListAPI.Controllers
 
             var updatedTaskList = taskList.Select(x =>
             {
-                string time = x.DateTime.ToString("HH:mm");
+                string Time = x.DateTime.ToString("HH:mm");
 
-                return new { x.ID, x.Task, time };
+                return new { x.ID, x.Task, Time };
             }).ToList();
+
+            return Ok(updatedTaskList);
+        }
+
+        [HttpGet("UpcomingTasks")]
+        [ExceptionHandling]
+        public async Task<IActionResult> UpcomingTasks()
+        {
+            List<TaskModel> taskList = await _taskRepo.UpcomingTasks();
+
+            var updatedTaskList = taskList.Select(x =>
+            {
+                string Date = x.DateTime.ToString("dd/MM/yyyy");
+                string Time = x.DateTime.ToString("HH:mm");
+
+                return new { x.ID, x.Task, Date, Time };
+            });
 
             return Ok(updatedTaskList);
         }

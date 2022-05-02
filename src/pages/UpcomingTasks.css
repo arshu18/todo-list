@@ -1,0 +1,66 @@
+.UpcomingTasks-container{
+    width: 80%;
+    margin: 3em auto 0 auto;
+    overflow: auto;
+}
+
+.UpcomingTasks-table{
+    width: 100%;
+    table-layout: fixed;
+}
+
+.UpcomingTasks-table, .UpcomingTasks-table th, .UpcomingTasks-table td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.UpcomingTasks-table th, .UpcomingTasks-table td{
+    padding: 1em;
+    text-align: center;
+}
+
+.UpcomingTasks-table th{
+    background-color: #00c3ff54;
+}
+
+.UpcomingTasks-SNO{
+    width: 10%;
+}
+
+.UpcomingTasks-Task{
+    width: 60%;
+}
+
+.UpcomingTasks-Date{
+    width: 15%;
+}
+
+.UpcomingTasks-Time{
+    width: 15%;
+}
+
+.UpcomingTasks-Taskval{
+    word-wrap: break-word;
+}
+
+@media screen and (max-width: 900px){
+    .UpcomingTasks-container{
+        width: 95%;
+    }
+
+    .UpcomingTasks-table{
+        width: 160%;
+    }
+
+    .UpcomingTasks-SNO{
+        width: 20%;
+    }
+
+    .UpcomingTasks-Date, .UpcomingTasks-Time{
+        width: 40%;
+    }
+
+    .DayTasks-Task{
+        width: 60%;
+    }
+}

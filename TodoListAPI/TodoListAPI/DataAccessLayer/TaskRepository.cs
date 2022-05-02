@@ -31,7 +31,7 @@ namespace TodoListAPI.DataAccessLayer
         {
             List<TaskModel> taskList;
             
-            string query = "SELECT ID, Task, DateTime FROM [dbo].[Task] WHERE DateTime BETWEEN @StartDate AND @EndDate";
+            string query = "SELECT ID, Task, DateTime FROM [dbo].[Task] WHERE DateTime BETWEEN @StartDate AND @EndDate ORDER BY DateTime";
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StartDate", startDate, DbType.DateTime);
@@ -40,6 +40,20 @@ namespace TodoListAPI.DataAccessLayer
             using(IDbConnection connection = _context.CreateConnection())
             {
                 taskList = (List<TaskModel>)await connection.QueryAsync<TaskModel>(query, parameters);
+            }
+
+            return taskList;
+        }
+
+        public async Task<List<TaskModel>> UpcomingTasks()
+        {
+            List<TaskModel> taskList;
+
+            string query = "SELECT ID, Task, DateTime FROM [dbo].[Task] WHERE DateTime > GETDATE() ORDER BY DateTime";
+
+            using (IDbConnection connection = _context.CreateConnection())
+            {
+                taskList = (List<TaskModel>)await connection.QueryAsync<TaskModel>(query);
             }
 
             return taskList;

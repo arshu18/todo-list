@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import { v4 as uuidv4 } from "uuid"
 
 // Components
 import NewTask from "./NewTask"
@@ -38,7 +39,7 @@ const Navbar = () => {
                 {
                     displayTabs && (
                         <section className="Navbar-navigationContainer">
-                            <Link to="/" className="Navbar-Upcoming">Upcoming Tasks</Link>
+                            <Link to={`/UpcomingTasks/${uuidv4()}`} className="Navbar-Upcoming">Upcoming Tasks</Link>
                             <h4 className="Navbar-Newtask" onClick={() => setDisplayModal(true)}>New Task</h4>
                         </section>
                     )
@@ -56,7 +57,7 @@ const Navbar = () => {
             {
                 displayVerticalNav && (
                     <section className="Navbar-vertical">
-                        <Link to="/" className="Navbar-Upcoming">Upcoming Tasks</Link>
+                        <Link to={`/UpcomingTasks/${uuidv4()}`} className="Navbar-Upcoming-vertical">Upcoming Tasks</Link>
                         <h4 className="Navbar-Newtask-vertical" onClick={() => setDisplayModal(true)}>New Task</h4>
                     </section>
                 )

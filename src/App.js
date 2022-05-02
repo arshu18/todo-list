@@ -11,6 +11,7 @@ import TaskStatus from "./components/TaskStatus"
 //Pages
 import Home from "./pages/Home"
 import DayTasks from "./pages/DayTasks"
+import UpcomingTasks from "./pages/UpcomingTasks"
 
 const TaskStatusContext = createContext()
 
@@ -40,6 +41,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/DayTasks/:date/:uui" element={<DayTasks />} />
+          <Route path="/UpcomingTasks/:uui" element={<UpcomingTasks/>} />
         </Routes>
       </Router>
     </TaskStatusContext.Provider>

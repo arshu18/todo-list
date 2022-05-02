@@ -38,7 +38,7 @@ const DayTasks = () => {
                 {
                     taskList.length === 0 ? (
                         <tr>
-                            <td colSpan="4">No Tasks available</td>
+                            <td colSpan="3">No Tasks available</td>
                         </tr>
                     ) : (
                         taskList.map((task, index) => {
