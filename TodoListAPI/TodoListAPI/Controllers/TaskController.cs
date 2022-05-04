@@ -82,7 +82,7 @@ namespace TodoListAPI.Controllers
 
             return Ok(updatedTaskList);
         }
-
+        
         [NonAction]
         private static string FormattedDate(string date)
         {
