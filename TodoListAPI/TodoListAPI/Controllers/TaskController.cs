@@ -74,8 +74,8 @@ namespace TodoListAPI.Controllers
 
             var updatedTaskList = taskList.Select(x =>
             {
-                string Date = x.DateTime.ToString("dd/MM/yyyy");
-                string Time = x.DateTime.ToString("HH:mm");
+                string Date = ConvertDateToddMMyyyy(x.DateTime);
+                string Time = ConvertDateToHHmm(x.DateTime);
 
                 return new { x.ID, x.Task, Date, Time };
             });
@@ -83,7 +83,32 @@ namespace TodoListAPI.Controllers
             return Ok(updatedTaskList);
         }
         
-        [NonAction]
+        private static string ConvertDateToddMMyyyy(DateTime date)
+        {
+            string day = date.Day.ToString();
+            if (day.Length == 1)
+                day = "0" + day;
+
+            string month = date.Month.ToString();
+            if (month.Length == 1)
+                month = "0" + month;
+
+            return day + "/" + month + "/" + date.Year;
+        }
+
+        private static string ConvertDateToHHmm(DateTime date)
+        {
+            string hour = date.Hour.ToString();
+            if(hour.Length == 1)
+                hour = "0" + hour;
+
+            string minute = date.Minute.ToString();
+            if(minute.Length == 1)
+                minute = "0" + minute;
+
+            return hour + ":" + minute;
+        }
+
         private static string FormattedDate(string date)
         {
             string[] dateComponents = date.Split('/');
