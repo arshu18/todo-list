@@ -1,6 +1,6 @@
 # A Responsive Todo List
 
-This is a Todo List implemented using ReactJS with a calendar view to seamlessly navigate between months and years. The backend is implemented with ASP.NET Core Web API. Currently there is only feature to add tasks. Editing and Delete are not available.
+This is a Todo List implemented using ReactJS with a calendar view to seamlessly navigate between months and years. The backend is implemented with ASP.NET Core Web API. Currently there is only feature to add tasks. Editing feature is not available.
 
 ## Steps to follow to integrate project
 
