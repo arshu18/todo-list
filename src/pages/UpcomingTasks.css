@@ -28,7 +28,7 @@
 }
 
 .UpcomingTasks-Task{
-    width: 60%;
+    width: 50%;
 }
 
 .UpcomingTasks-Date{
@@ -39,8 +39,16 @@
     width: 15%;
 }
 
+.UpcomingTasks-Actions{
+    width: 10%;
+}
+
 .UpcomingTasks-Taskval{
     word-wrap: break-word;
+}
+
+.DayTasks-DeleteBtn{
+    cursor: pointer;
 }
 
 @media screen and (max-width: 900px){
@@ -49,7 +57,7 @@
     }
 
     .UpcomingTasks-table{
-        width: 160%;
+        width: 175%;
     }
 
     .UpcomingTasks-SNO{
@@ -60,7 +68,11 @@
         width: 40%;
     }
 
-    .DayTasks-Task{
+    .UpcomingTasks-Task{
         width: 60%;
+    }
+
+    .UpcomingTasks-Actions{
+        width: 15%;
     }
 }

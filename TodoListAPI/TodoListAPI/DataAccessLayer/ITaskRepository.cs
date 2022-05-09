@@ -9,5 +9,7 @@ namespace TodoListAPI.DataAccessLayer
         Task<List<TaskModel>> GetTasks(DateTime startDate, DateTime endDate);
 
         Task<List<TaskModel>> UpcomingTasks();
+
+        Task<List<TaskModel>> DeleteTask(long id, DateTime targetDate);
     }
 }

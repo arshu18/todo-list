@@ -44,6 +44,26 @@ namespace TodoListAPI.Controllers
             return Ok();
         }
 
+        [HttpPost("Delete")]
+        [ExceptionHandling]
+        public async Task<IActionResult> DeleteTask(long id, string date)
+        {
+            string formattedDateStr = FormattedDate(date);
+            DateTime formattedDate = DateTime.ParseExact(formattedDateStr, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+            List<TaskModel> taskList = await _taskRepo.DeleteTask(id, formattedDate);
+
+            var updatedTaskList = taskList.Select(x =>
+            {
+                string Date = ConvertDateToddMMyyyy(x.DateTime);
+                string Time = ConvertDateToHHmm(x.DateTime);
+
+                return new { x.ID, x.Task, Date, Time };
+            });
+
+            return Ok(updatedTaskList);
+        }
+
         [HttpGet("GetTasks")]
         [ExceptionHandling]
         public async Task<IActionResult> GetTasks(string date)
@@ -82,7 +102,26 @@ namespace TodoListAPI.Controllers
 
             return Ok(updatedTaskList);
         }
-        
+
+        [HttpPost("DeleteFetchUpcomingTask")]
+        [ExceptionHandling]
+        public async Task<IActionResult> DeleteFetchUpcomingTask(long id)
+        {
+            List<TaskModel> taskList = await _taskRepo.DeleteTask(id, DateTime.Now);
+            taskList = await _taskRepo.UpcomingTasks();
+
+            var updatedTaskList = taskList.Select(x =>
+            {
+                string Date = ConvertDateToddMMyyyy(x.DateTime);
+                string Time = ConvertDateToHHmm(x.DateTime);
+
+                return new { x.ID, x.Task, Date, Time };
+            });
+
+            return Ok(updatedTaskList);
+        }
+
+
         private static string ConvertDateToddMMyyyy(DateTime date)
         {
             string day = date.Day.ToString();

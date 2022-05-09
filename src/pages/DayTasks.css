@@ -1,6 +1,11 @@
-.DayTasks-table{
-    width: 70%;
+.DayTasks-container{
+    width: 80%;
     margin: 3em auto 0 auto;
+    overflow: auto;
+}
+
+.DayTasks-table{
+    width: 100%;
     table-layout: fixed;
 }
 
@@ -23,11 +28,19 @@
 }
 
 .DayTasks-Task{
-    width: 65%;
+    width: 60%;
 }
 
 .DayTasks-Time{
-    width: 25%;
+    width: 15%;
+}
+
+.DayTasks-Actions{
+    width: 15%;
+}
+
+.DayTasks-DeleteBtn{
+    cursor: pointer;
 }
 
 .DayTasks-Taskval{
@@ -35,15 +48,27 @@
 }
 
 @media screen and (max-width: 900px){
-    .DayTasks-table{
+    .DayTasks-container{
         width: 95%;
     }
+    
+    .DayTasks-table{
+        width: 140%;
+    }
 
-    .DayTasks-SNO, .DayTasks-Time{
+    .DayTasks-SNO{
+        width: 15%;
+    }
+
+    .DayTasks-Time{
         width: 20%;
     }
 
     .DayTasks-Task{
-        width: 60%;
+        width: 45%;
+    }
+
+    .DayTasks-Actions{
+        width: 20%;
     }
 }

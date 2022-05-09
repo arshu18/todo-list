@@ -13,6 +13,11 @@ const getStatusMsg = (taskStatus) => {
         case "TF":
             return "Unable to fetch tasks at the moment"
             break
+        case "DF":
+            return "Unable to delete the given task"
+            break
+        case "DS":
+            return "Task has been deleted successfully"
         default:
             return ""
     }
@@ -21,10 +26,12 @@ const getStatusMsg = (taskStatus) => {
 const getCssClass = (taskStatus) => {
     switch(taskStatus){
         case "AS":
+        case "DS":
             return "success"
             break
         case "AF":
         case "TF":
+        case "DF":
             return "failure"
             break
         default:

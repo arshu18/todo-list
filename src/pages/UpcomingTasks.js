@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { useParams } from "react-router-dom"
+import { AiFillDelete } from "react-icons/ai"
 
 // Styles
 import "../pages/UpcomingTasks.css"
@@ -25,6 +26,30 @@ const UpcomingTasks = () => {
         .catch(err => setTaskStatus(err.message))
     }, [uui])
 
+    const DeleteTask = (id) => {
+        if(window.confirm("Are you sure to delete the task?")){
+            fetch(`${GLOBAL.API_HOST}/api/Task/DeleteFetchUpcomingTask?id=${id}`, {
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json",
+                    "Accept" : "application/json"
+                },
+                body : null
+            })
+            .then(response => {
+                if (response.ok)
+                    return response.json()
+                else
+                    throw new Error("DF")
+            })
+            .then(data => {
+                setTaskList(data)
+                setTaskStatus("DS")
+            })
+            .catch(err => setTaskStatus(err.message))
+        }
+    }
+
     return (
         <section className="UpcomingTasks-container">
             <table className="UpcomingTasks-table">
@@ -34,13 +59,14 @@ const UpcomingTasks = () => {
                         <th className="UpcomingTasks-Task">Task</th>
                         <th className="UpcomingTasks-Date">Date</th>
                         <th className="UpcomingTasks-Time">Time</th>
+                        <th className="UpcomingTasks-Actions">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         taskList.length === 0 ? (
                             <tr>
-                                <td colSpan="4">No Tasks available</td>
+                                <td colSpan="5">No Tasks available</td>
                             </tr>
                         ) : (
                             taskList.map((task, index) => {
@@ -50,6 +76,11 @@ const UpcomingTasks = () => {
                                         <td className="UpcomingTasks-Taskval">{task.task}</td>
                                         <td>{task.date}</td>
                                         <td>{task.time}</td>
+                                        <td>
+                                            <button type="button" className="DayTasks-DeleteBtn" onClick={() => DeleteTask(task.id)}>
+                                                <AiFillDelete />
+                                            </button>
+                                        </td>
                                     </tr>
                                 )
                             })

@@ -58,5 +58,21 @@ namespace TodoListAPI.DataAccessLayer
 
             return taskList;
         }
+
+        public async Task<List<TaskModel>> DeleteTask(long id, DateTime targetDate)
+        {
+            List<TaskModel> taskList;
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Id", id, DbType.Int64, ParameterDirection.Input);
+            parameters.Add("@TargetDate", targetDate, DbType.DateTime, ParameterDirection.Input);
+
+            using (IDbConnection connection = _context.CreateConnection())
+            {
+                taskList = (List<TaskModel>)await connection.QueryAsync<TaskModel>("sp_DeleteTask", new { Id = id, TargetDate = targetDate }, commandType: CommandType.StoredProcedure);
+            }
+
+            return taskList;
+        }
     }
 }
